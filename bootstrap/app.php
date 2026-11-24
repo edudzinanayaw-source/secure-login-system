@@ -17,9 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->trustProxies(at: '*');
 
         // Preserve the role middleware.
-        $middleware->alias([
-            'role' => \App\Http\Middleware\RoleMiddleware::class,
-        ]);
+       $middleware->alias([
+    'role' => \App\Http\Middleware\RoleMiddleware::class,
+    'require.2fa' => \App\Http\Middleware\RequireTwoFactor::class,
+]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

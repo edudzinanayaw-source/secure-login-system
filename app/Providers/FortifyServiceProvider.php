@@ -31,6 +31,7 @@ class FortifyServiceProvider extends ServiceProvider
     { 
         Fortify::loginView(fn () => view('login'));
         Fortify::registerView(fn () => view('register'));
+        Fortify::redirects('register', '/two-factor-setup');
         Fortify::twoFactorChallengeView(fn () => view('two-factor-challenge'));
         Fortify::confirmPasswordView(fn () => view('confirm-password'));
 

@@ -1,70 +1,40 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
 
-/*
-|--------------------------------------------------------------------------
-| Main Route
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/', function () {
-    return redirect()->route('login');
-});
-
-/*
-|--------------------------------------------------------------------------
-| Authenticated User Routes
-|--------------------------------------------------------------------------
-*/
+Route::get('/', fn() => redirect()->route('login'));
 
 Route::middleware('auth')->group(function () {
 
-    // Redirect authenticated users to their appropriate dashboard.
-    Route::get('/dashboard', function () {
-        $user = auth()->user();
+    // Users must access this page before completing 2FA.
+    Route::get('/two-factor-setup', fn() => view('two-factor-setup'))
+        ->name('two-factor.setup');
 
-        if ($user->role === 'admin') {
-            return redirect()->route('admin.dashboard');
-        }
+    // All dashboards require confirmed 2FA.
+    Route::middleware('require.2fa')->group(function () {
 
-        return redirect()->route('user.dashboard');
-    })->name('dashboard');
+        Route::get('/dashboard', function () {
+            return auth()->user()->role === 'admin'
+                ? redirect()->route('admin.dashboard')
+                : redirect()->route('user.dashboard');
+        })->name('dashboard');
 
-    // Administrator Dashboard
-Route::get('/admin', function () {
-    $users = \App\Models\User::latest()
-        ->take(10)
-        ->get();
+        Route::get('/admin', function () {
+            $users = User::latest()->take(10)->get();
+            $totalUsers = User::count();
+            $totalAdmins = User::where('role', 'admin')->count();
+            $totalRegularUsers = User::where('role', 'user')->count();
 
-    $totalUsers = \App\Models\User::count();
+            return view('admin-dashboard', compact(
+                'users',
+                'totalUsers',
+                'totalAdmins',
+                'totalRegularUsers'
+            ));
+        })->middleware('role:admin')->name('admin.dashboard');
 
-    $totalAdmins = \App\Models\User::where(
-        'role',
-        'admin'
-    )->count();
-
-    $totalRegularUsers = \App\Models\User::where(
-        'role',
-        'user'
-    )->count();
-
-    return view('admin-dashboard', compact(
-        'users',
-        'totalUsers',
-        'totalAdmins',
-        'totalRegularUsers'
-    ));
-})->middleware('role:admin')->name('admin.dashboard');
-
-    // Regular User Dashboard
-    Route::get('/user', function () {
-        return view('user-dashboard');
-    })->middleware('role:user')->name('user.dashboard');
-
-    // Two-Factor Authentication Setup
-    Route::get('/two-factor-setup', function () {
-        return view('two-factor-setup');
-    })->name('two-factor.setup');
-
+        Route::get('/user', fn() => view('user-dashboard'))
+            ->middleware('role:user')->name('user.dashboard');
+    });
 });
