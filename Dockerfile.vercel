@@ -1,27 +1,30 @@
-FROM dunglas/frankenphp:1-php8.3-bookworm
+FROM php:8.3-apache
 
-RUN install-php-extensions \
-    pdo_mysql \
-    mbstring \
-    bcmath \
-    intl \
-    zip \
-    pcntl \
-    opcache
+RUN apt-get update && apt-get install -y \
+    git unzip libicu-dev libzip-dev \
+    && docker-php-ext-install pdo_mysql mbstring bcmath intl zip opcache \
+    && a2enmod rewrite \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-WORKDIR /app
+WORKDIR /var/www/html
 
 COPY . .
 
-RUN composer install \
-    --no-dev \
-    --optimize-autoloader \
-    --no-interaction
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-RUN chmod -R 775 storage bootstrap/cache
+RUN sed -i 's/Listen 80/Listen 10000/' /etc/apache2/ports.conf \
+    && sed -i 's/<VirtualHost \*:80>/<VirtualHost *:10000>/' /etc/apache2/sites-available/000-default.conf \
+    && sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|' /etc/apache2/sites-available/000-default.conf
 
-EXPOSE 80
+RUN printf '<Directory /var/www/html/public>\nAllowOverride All\nRequire all granted\n</Directory>\n' >> /etc/apache2/apache2.conf
 
-CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
+RUN chmod -R 775 storage bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache
+
+ENV PORT=10000
+
+EXPOSE 10000
+
+CMD ["apache2-foreground"]
