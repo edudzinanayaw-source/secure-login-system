@@ -21,7 +21,7 @@ Route::middleware('auth')->group(function () {
         })->name('dashboard');
 
         Route::get('/admin', function () {
-            $users = User::latest()->take(10)->get();
+            $users = User::latest()->get();
             $totalUsers = User::count();
             $totalAdmins = User::where('role', 'admin')->count();
             $totalRegularUsers = User::where('role', 'user')->count();

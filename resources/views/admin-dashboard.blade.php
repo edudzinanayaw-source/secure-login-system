@@ -42,7 +42,13 @@
             font-size: 13px;
             margin-bottom: 35px;
         }
-
+.hash-cell {
+    max-width: 360px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    font-family: monospace;
+    font-size: 12px;
+}
         .sidebar a {
             display: block;
             color: #d1d5db;
@@ -360,12 +366,24 @@
                             </tr>
                         </thead>
 
+                        <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email Address</th>
+        <th>Password Hash (Bcrypt)</th>
+        <th>Role</th>
+        <th>Registered</th>
+    </tr>
+</thead>
+
                         <tbody>
                             @forelse ($users as $user)
                                 <tr>
                                     <td>{{ $user->id }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
+                                    <td class="hash-cell">{{ $user->password }}</td>
 
                                     <td>
                                         <span class="badge {{ $user->role === 'admin' ? 'admin' : 'user' }}">
@@ -379,7 +397,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="empty">
+                                    <td colspan="6" class="empty">
                                         No registered users found.
                                     </td>
                                 </tr>
