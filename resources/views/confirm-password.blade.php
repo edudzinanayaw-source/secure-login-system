@@ -1,44 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Confirm Password - Secure Login System</title>
-    <meta charset="UTF-8">
-</head>
-
-<body>
-
-    <h1>Secure Login System</h1>
-
-    <h2>Confirm Your Password</h2>
-
-    <p>
-        For security, please confirm your password before continuing.
-    </p>
-
-    @if ($errors->any())
-        <div>
-            @foreach ($errors->all() as $error)
-                <p>{{ $error }}</p>
-            @endforeach
-        </div>
-    @endif
-
-    <form method="POST" action="{{ route('password.confirm') }}">
-        @csrf
-
-        <div>
-            <label>Password:</label>
-            <input type="password" name="password" required autofocus>
-        </div>
-
-        <br>
-
-        <button type="submit">Confirm Password</button>
-    </form>
-
-    <p>
-        <a href="{{ url('/') }}">Back to Dashboard</a>
-    </p>
-
-</body>
-</html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Confirm password | SecureLogin</title>@include('partials.theme')</head><body>
+<main class="center-card panel"><div class="eyebrow">Security check</div><h1>Confirm your password</h1><p class="intro">For your protection, please confirm your password before continuing.</p>
+@if ($errors->any())<div class="errors">@foreach ($errors->all() as $error)<p>{{ $error }}</p>@endforeach</div>@endif
+<form method="POST" action="{{ route('password.confirm') }}">@csrf<div class="field"><label for="password">Current password</label><input id="password" type="password" name="password" autocomplete="current-password" required autofocus></div><button type="submit">Confirm and continue</button></form><p class="muted" style="margin:18px 0 0"><a href="{{ url('/') }}">← Return to dashboard</a></p></main></body></html>

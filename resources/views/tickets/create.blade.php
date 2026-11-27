@@ -1,48 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit a Support Ticket</title>
-    <style>
-        * { box-sizing: border-box; }
-        body { margin: 0; font-family: Arial, sans-serif; background: #f4f7fc; color: #18243a; }
-        main { max-width: 720px; margin: 40px auto; padding: 28px; background: white; border: 1px solid #e5eaf2; border-radius: 14px; }
-        label { display: block; margin: 18px 0 7px; font-weight: bold; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; }
-        textarea { min-height: 150px; resize: vertical; }
-        .button { margin-top: 20px; padding: 12px 18px; border: 0; border-radius: 8px; background: #356df3; color: white; cursor: pointer; }
-        .error { color: #b91c1c; font-size: 14px; margin-top: 5px; }
-        a { color: #356df3; text-decoration: none; }
-    </style>
-</head>
-<body>
-<main>
-    <p><a href="{{ route('tickets.index') }}">← Back to my tickets</a></p>
-    <h1>Submit a Support Ticket</h1>
-    <p>Describe the technical issue you need help with.</p>
-
-    <form method="POST" action="{{ route('tickets.store') }}">
-        @csrf
-
-        <label for="subject">Subject</label>
-        <input id="subject" name="subject" value="{{ old('subject') }}" maxlength="150" required>
-        @error('subject') <div class="error">{{ $message }}</div> @enderror
-
-        <label for="description">Describe the issue</label>
-        <textarea id="description" name="description" maxlength="5000" required>{{ old('description') }}</textarea>
-        @error('description') <div class="error">{{ $message }}</div> @enderror
-
-        <label for="priority">Priority</label>
-        <select id="priority" name="priority" required>
-            <option value="low" @selected(old('priority') === 'low')>Low</option>
-            <option value="medium" @selected(old('priority', 'medium') === 'medium')>Medium</option>
-            <option value="high" @selected(old('priority') === 'high')>High</option>
-        </select>
-        @error('priority') <div class="error">{{ $message }}</div> @enderror
-
-        <button class="button" type="submit">Submit Ticket</button>
-    </form>
-</main>
-</body>
-</html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Submit a ticket | SecureLogin</title>@include('partials.theme')</head><body><main class="page ticket-form"><a href="{{ route('tickets.index') }}">← Back to my tickets</a><div class="page-head" style="margin-top:25px"><div class="eyebrow">Customer support</div><h1>Submit a support ticket</h1><p class="muted">Tell us what happened. Provide enough detail to help the support team investigate.</p></div><section class="panel">
+@if ($errors->any())<div class="errors">@foreach ($errors->all() as $error)<p>{{ $error }}</p>@endforeach</div>@endif
+<form method="POST" action="{{ route('tickets.store') }}">@csrf
+<div class="field"><label for="subject">Issue subject</label><input id="subject" name="subject" value="{{ old('subject') }}" maxlength="150" placeholder="Briefly describe the issue" required>@error('subject')<div class="errors">{{ $message }}</div>@enderror</div>
+<div class="field"><label for="description">Description</label><textarea id="description" name="description" maxlength="5000" placeholder="Explain what happened and any steps you have already tried..." required>{{ old('description') }}</textarea>@error('description')<div class="errors">{{ $message }}</div>@enderror</div>
+<div class="field"><label for="priority">Priority</label><select id="priority" name="priority" required><option value="low" @selected(old('priority') === 'low')>Low</option><option value="medium" @selected(old('priority','medium') === 'medium')>Medium</option><option value="high" @selected(old('priority') === 'high')>High</option></select>@error('priority')<div class="errors">{{ $message }}</div>@enderror</div>
+<div class="actions"><button type="submit">Submit support request</button><a class="btn btn-light" href="{{ route('tickets.index') }}">Cancel</a></div></form></section></main></body></html>
