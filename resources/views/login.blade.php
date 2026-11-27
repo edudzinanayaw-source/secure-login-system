@@ -1,4 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Sign in | SecureLogin</title>@include('partials.theme')</head><body>
+@include('partials.security-simulation')
 <div class="auth-wrap"><aside class="auth-aside"><div><div class="auth-mark">SECURE<span>LOGIN</span></div><h1>Security that works quietly in the background.</h1><p>A protected workspace for managing your identity, account access and support requests.</p><div class="auth-points"><div>✓ Password-protected access</div><div>✓ Multi-factor account verification</div><div>✓ Role-based account controls</div></div></div><small>SECURELOGIN · ACCOUNT ACCESS</small></aside>
 <main class="auth-main"><section class="auth-card"><div class="eyebrow">Account portal</div><h2>Welcome back</h2><p class="intro">Sign in to continue to your secure workspace.</p>
 @if ($errors->any())<div class="errors">@foreach ($errors->all() as $error)<p>{{ $error }}</p>@endforeach</div>@endif
