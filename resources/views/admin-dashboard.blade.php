@@ -13,10 +13,24 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --navy: #101b35;
+            --navy-light: #1b2a4a;
+            --blue: #356df3;
+            --purple: #7657e8;
+            --green: #0f9f75;
+            --page: #f4f7fc;
+            --white: #ffffff;
+            --text: #18243a;
+            --muted: #718096;
+            --border: #e5eaf2;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f6fb;
-            color: #1f2937;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: var(--page);
+            color: var(--text);
+            line-height: 1.5;
         }
 
         .layout {
@@ -24,59 +38,69 @@
             min-height: 100vh;
         }
 
+        /* Sidebar */
         .sidebar {
             width: 250px;
-            background: #111827;
-            color: white;
-            padding: 30px 20px;
             flex-shrink: 0;
+            padding: 30px 18px;
+            background: linear-gradient(180deg, #101b35, #1b2a4a);
+            color: white;
         }
 
-        .sidebar h2 {
-            font-size: 21px;
-            margin-bottom: 10px;
+        .brand {
+            padding: 0 12px;
+            font-size: 24px;
+            font-weight: 700;
         }
 
-        .sidebar .subtitle {
-            color: #9ca3af;
+        .subtitle {
+            padding: 0 12px;
+            margin: 5px 0 35px;
+            color: #aab7d0;
             font-size: 13px;
-            margin-bottom: 35px;
         }
-.hash-cell {
-    max-width: 360px;
-    white-space: normal;
-    overflow-wrap: anywhere;
-    font-family: monospace;
-    font-size: 12px;
-}
+
+        .nav-label {
+            padding: 0 12px;
+            margin-bottom: 12px;
+            color: #8392ad;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
         .sidebar a {
             display: block;
-            color: #d1d5db;
-            text-decoration: none;
-            padding: 13px 15px;
-            border-radius: 8px;
             margin-bottom: 8px;
+            padding: 13px 15px;
+            border-radius: 9px;
+            color: #c8d2e5;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.2s ease;
         }
 
         .sidebar a.active,
         .sidebar a:hover {
-            background: #374151;
+            background: #293b60;
             color: white;
         }
 
+        /* Main area */
         .main {
             flex: 1;
             min-width: 0;
         }
 
         .topbar {
-            background: white;
-            padding: 22px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 15px;
-            border-bottom: 1px solid #e5e7eb;
+            gap: 20px;
+            padding: 23px 34px;
+            background: white;
+            border-bottom: 1px solid var(--border);
         }
 
         .topbar h1 {
@@ -84,27 +108,30 @@
         }
 
         .topbar p {
-            color: #6b7280;
-            font-size: 14px;
-            margin-top: 5px;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 13px;
         }
 
         .logout-button {
-            background: #dc2626;
-            color: white;
-            border: none;
-            padding: 11px 16px;
-            border-radius: 7px;
+            padding: 10px 17px;
+            border: 1px solid #f2caca;
+            border-radius: 8px;
+            background: #fff5f5;
+            color: #c53030;
+            font-weight: 600;
             cursor: pointer;
-            font-size: 14px;
         }
 
         .logout-button:hover {
-            background: #b91c1c;
+            background: #ffe5e5;
         }
 
+        /* Content */
         .content {
-            padding: 30px;
+            max-width: 1600px;
+            margin: auto;
+            padding: 34px;
         }
 
         .welcome {
@@ -112,71 +139,91 @@
         }
 
         .welcome h2 {
-            font-size: 25px;
-            margin-bottom: 8px;
+            margin-bottom: 7px;
+            font-size: 27px;
         }
 
         .welcome p {
-            color: #6b7280;
-            line-height: 1.6;
+            color: var(--muted);
+            line-height: 1.7;
         }
 
+        .account {
+            margin-top: 8px;
+            font-size: 13px;
+        }
+
+        /* Statistics */
         .cards {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 20px;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
         }
 
         .card {
+            position: relative;
+            overflow: hidden;
+            padding: 25px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
             background: white;
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 15px rgba(28, 48, 85, 0.04);
+        }
+
+        .card::after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            content: "";
+        }
+
+        .card.total::after {
+            background: var(--blue);
+        }
+
+        .card.admins::after {
+            background: var(--purple);
+        }
+
+        .card.users::after {
+            background: var(--green);
         }
 
         .card p {
-            color: #6b7280;
+            margin-bottom: 13px;
+            color: var(--muted);
             font-size: 14px;
-            margin-bottom: 15px;
+            font-weight: 600;
         }
 
         .card h3 {
-            font-size: 32px;
+            font-size: 35px;
         }
 
-        .card.total {
-            border-top: 4px solid #2563eb;
-        }
-
-        .card.admins {
-            border-top: 4px solid #7c3aed;
-        }
-
-        .card.users {
-            border-top: 4px solid #059669;
-        }
-
+        /* Registered users */
         .section {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
             overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background: white;
+            box-shadow: 0 4px 15px rgba(28, 48, 85, 0.04);
         }
 
         .section-header {
-            padding: 22px 24px;
-            border-bottom: 1px solid #e5e7eb;
+            padding: 23px 25px;
+            border-bottom: 1px solid var(--border);
         }
 
         .section-header h2 {
+            margin-bottom: 5px;
             font-size: 19px;
-            margin-bottom: 6px;
         }
 
         .section-header p {
-            color: #6b7280;
+            color: var(--muted);
             font-size: 13px;
         }
 
@@ -191,86 +238,107 @@
         }
 
         th, td {
-            padding: 16px 24px;
-            border-bottom: 1px solid #f1f5f9;
-            font-size: 14px;
-            white-space: nowrap;
+            padding: 16px 18px;
+            border-bottom: 1px solid #edf0f6;
+            font-size: 13px;
         }
 
         th {
-            background: #f9fafb;
-            color: #6b7280;
-            font-weight: 600;
+            background: #f8faff;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        tbody tr:hover {
+            background: #f8faff;
+        }
+
+        .hash-cell {
+            min-width: 220px;
+            max-width: 360px;
+            overflow-wrap: anywhere;
+            font-family: monospace;
+            font-size: 11px;
+            color: #596579;
         }
 
         .badge {
             display: inline-block;
-            padding: 6px 10px;
+            padding: 5px 10px;
             border-radius: 20px;
             font-size: 12px;
-            font-weight: bold;
+            font-weight: 700;
             text-transform: capitalize;
         }
 
         .badge.admin {
-            background: #ede9fe;
-            color: #6d28d9;
+            background: #f0eaff;
+            color: #6941c6;
         }
 
         .badge.user {
-            background: #d1fae5;
-            color: #047857;
+            background: #e3f8ef;
+            color: #087443;
         }
 
         .empty {
             padding: 30px;
+            color: var(--muted);
             text-align: center;
-            color: #6b7280;
         }
 
         .footer {
-            padding: 25px 30px;
-            color: #6b7280;
-            font-size: 13px;
+            padding: 25px 34px;
+            color: #8a96a9;
+            font-size: 12px;
         }
 
+        /* Responsive */
         @media (max-width: 900px) {
             .cards {
-                grid-template-columns: 1fr;
+                gap: 13px;
             }
 
-            .sidebar {
-                width: 200px;
+            .content {
+                padding: 22px;
             }
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 700px) {
             .layout {
                 display: block;
             }
 
             .sidebar {
                 width: 100%;
+                padding: 20px;
             }
 
-            .sidebar .subtitle {
-                margin-bottom: 15px;
+            .subtitle {
+                margin-bottom: 20px;
             }
 
             .topbar {
                 padding: 20px;
             }
 
-            .topbar h1 {
-                font-size: 20px;
+            .cards {
+                grid-template-columns: 1fr;
             }
 
             .content {
-                padding: 20px;
+                padding: 18px;
             }
+        }
 
+        @media (max-width: 480px) {
             .topbar {
                 align-items: flex-start;
+                flex-direction: column;
             }
         }
     </style>
@@ -280,22 +348,34 @@
 
 <div class="layout">
 
+    <!-- Sidebar -->
     <aside class="sidebar">
-        <h2>SecurePanel</h2>
+
+        <div class="brand">SecurePanel</div>
+
         <p class="subtitle">Administration System</p>
 
+        <p class="nav-label">Main Menu</p>
+
         <a href="{{ route('admin.dashboard') }}" class="active">
-            Dashboard
+            📊 &nbsp; Dashboard
         </a>
 
         <a href="#users">
-            Registered Users
+            👥 &nbsp; Registered Users
         </a>
+
+        <a href="{{ route('admin.tickets.index') }}">
+            🎫 &nbsp; Helpdesk Tickets
+        </a>
+
     </aside>
 
+    <!-- Main Content -->
     <main class="main">
 
         <header class="topbar">
+
             <div>
                 <h1>Admin Dashboard</h1>
                 <p>Secure Login System</p>
@@ -308,11 +388,14 @@
                     Log Out
                 </button>
             </form>
+
         </header>
 
         <div class="content">
 
+            <!-- Welcome -->
             <section class="welcome">
+
                 <h2>
                     Welcome, {{ auth()->user()->name }}!
                 </h2>
@@ -322,11 +405,13 @@
                     Manage your system and monitor registered accounts here.
                 </p>
 
-                <p style="margin-top: 8px;">
+                <p class="account">
                     Account: {{ auth()->user()->email }}
                 </p>
+
             </section>
 
+            <!-- Statistics -->
             <section class="cards">
 
                 <div class="card total">
@@ -346,6 +431,7 @@
 
             </section>
 
+            <!-- Users Table -->
             <section class="section" id="users">
 
                 <div class="section-header">
@@ -356,34 +442,33 @@
                 <div class="table-wrapper">
 
                     <table>
+
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Email Address</th>
+                                <th>Password Hash (Bcrypt)</th>
                                 <th>Role</th>
                                 <th>Registered</th>
                             </tr>
                         </thead>
 
-                        <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email Address</th>
-        <th>Password Hash (Bcrypt)</th>
-        <th>Role</th>
-        <th>Registered</th>
-    </tr>
-</thead>
-
                         <tbody>
+
                             @forelse ($users as $user)
+
                                 <tr>
+
                                     <td>{{ $user->id }}</td>
+
                                     <td>{{ $user->name }}</td>
+
                                     <td>{{ $user->email }}</td>
-                                    <td class="hash-cell">{{ $user->password }}</td>
+
+                                    <td class="hash-cell">
+                                        {{ $user->password }}
+                                    </td>
 
                                     <td>
                                         <span class="badge {{ $user->role === 'admin' ? 'admin' : 'user' }}">
@@ -394,18 +479,25 @@
                                     <td>
                                         {{ $user->created_at?->format('d M Y') ?? 'N/A' }}
                                     </td>
+
                                 </tr>
+
                             @empty
+
                                 <tr>
                                     <td colspan="6" class="empty">
                                         No registered users found.
                                     </td>
                                 </tr>
+
                             @endforelse
+
                         </tbody>
+
                     </table>
 
                 </div>
+
             </section>
 
         </div>

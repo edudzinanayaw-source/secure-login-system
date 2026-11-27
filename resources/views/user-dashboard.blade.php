@@ -459,6 +459,13 @@
     <a href="{{ route('user.dashboard') }}" class="nav-link active">
         ◈ &nbsp; My Dashboard
     </a>
+    <a href="{{ route('tickets.index') }}" class="nav-link">
+    🎫 &nbsp; My Support Tickets
+</a>
+
+<a href="{{ route('tickets.create') }}" class="nav-link">
+    ➕ &nbsp; Submit a Ticket
+</a>
 
     <a href="#account" class="nav-link">
         👤 &nbsp; My Account

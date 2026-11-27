@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use App\Http\Controllers\TicketController;
 
 Route::get('/', fn() => redirect()->route('login'));
 
@@ -19,6 +20,31 @@ Route::middleware('auth')->group(function () {
                 ? redirect()->route('admin.dashboard')
                 : redirect()->route('user.dashboard');
         })->name('dashboard');
+                // Regular user helpdesk routes
+        Route::get('/tickets', [TicketController::class, 'index'])
+            ->middleware('role:user')
+            ->name('tickets.index');
+
+        Route::get('/tickets/create', [TicketController::class, 'create'])
+            ->middleware('role:user')
+            ->name('tickets.create');
+
+        Route::post('/tickets', [TicketController::class, 'store'])
+            ->middleware('role:user')
+            ->name('tickets.store');
+
+        Route::get('/tickets/{ticket}', [TicketController::class, 'show'])
+            ->middleware('role:user')
+            ->name('tickets.show');
+
+        // Admin helpdesk routes
+        Route::get('/admin/tickets', [TicketController::class, 'adminIndex'])
+            ->middleware('role:admin')
+            ->name('admin.tickets.index');
+
+        Route::patch('/admin/tickets/{ticket}', [TicketController::class, 'adminUpdate'])
+            ->middleware('role:admin')
+            ->name('admin.tickets.update');
 
         Route::get('/admin', function () {
             $users = User::latest()->get();
