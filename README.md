@@ -1,58 +1,161 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Secure Login System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel-based web application demonstrating user authentication, two-factor authentication (2FA), and role-based access control.
 
-## About Laravel
+**Source Code:** [GitHub Repository](https://github.com/edudzinanayaw-source/secure-login-system)  
+**Live Demo:** [Open the Deployed Application](https://secure-login-system-qlal.onrender.com)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+> **Project status:** Academic project in development. The live demo and the latest password-pepper changes should be tested before being described as production-ready.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Project Overview
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+The Secure Login System was developed as an academic project to demonstrate how a web application can identify users, verify their identity, and restrict access according to their assigned roles.
 
-## Learning Laravel
+The application uses Laravel authentication features and a MySQL database. It includes registration and login, optional two-factor authentication setup, and separate access for users with different roles.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Main Features
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- User registration and login
+- Two-factor authentication using an authenticator app
+- Recovery codes for two-factor authentication
+- Role-based access control for two user roles
+- Password hashing
+- A password-pepper integration being developed
+- Database migrations for application tables
+- Login and dashboard views
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## Technology Stack
 
-## Agentic Development
+| Component | Technology |
+|---|---|
+| Backend framework | Laravel 13.34.0 |
+| Programming language | PHP 8.3.33 |
+| Database | MySQL 8.0.41 |
+| Authentication | Laravel Fortify 1.40.0 |
+| Frontend | Blade templates |
+| Local development environment | Laragon |
+| Source control | Git and GitHub |
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Authentication and Access Control
+
+### Registration and Login
+
+Users can create an account and sign in using their credentials. Laravel’s authentication features are used to support the login process.
+
+### Two-Factor Authentication
+
+The application includes a two-factor authentication setup flow. Users can scan a QR code with an authenticator application and confirm the setup using a generated code. Recovery codes are also provided.
+
+### Role-Based Access Control
+
+The application supports two roles: **Admin** and **User**. Role-based access is intended to restrict users to the pages and functions permitted for their role.
+
+### Password Protection
+
+Passwords are hashed before being stored. A password-pepper integration is also being added as an additional security measure. The pepper implementation and registration flow must be fully tested before this feature is considered complete.
+
+## Local Installation
+
+### Requirements
+
+Install the following before running the project locally:
+
+- PHP 8.3 or a compatible version
+- Composer
+- MySQL
+- Node.js and npm, if frontend assets need to be built
+- A local PHP environment such as Laragon
+
+### 1. Clone the repository
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone https://github.com/edudzinanayaw-source/secure-login-system.git
+cd secure-login-system
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 2. Install dependencies
 
-## Contributing
+```bash
+composer install
+npm install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Configure the environment
 
-## Code of Conduct
+Copy `.env.example` to `.env` and update the database settings for your local MySQL installation.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```env
+APP_URL=http://127.0.0.1:8000
 
-## Security Vulnerabilities
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=secure_login
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Create a database named `secure_login` in MySQL. Use the username and password configured for your own local database.
 
-## License
+**Do not commit your `.env` file, application keys, database credentials, pepper values, or other secrets to GitHub.**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 4. Generate the application key
+
+```bash
+php artisan key:generate
+```
+
+### 5. Run database migrations
+
+```bash
+php artisan migrate
+```
+
+### 6. Build frontend assets
+
+```bash
+npm run build
+```
+
+### 7. Start the local development server
+
+```bash
+php artisan serve
+```
+
+Open `http://127.0.0.1:8000` in your browser.
+
+## Database
+
+The application uses Laravel migrations to create and update its database structure. The development database includes the user table and additional tables for features such as two-factor authentication and role management.
+
+For a fresh local installation, run the migrations using the command shown above.
+
+## Demonstration
+
+The demonstration should show the main user journey:
+
+1. Open the registration page and create a test account.
+2. Sign in with the test account.
+3. Set up and confirm two-factor authentication.
+4. Sign out and sign in again, completing the 2FA challenge.
+5. Confirm that the account is directed to the appropriate dashboard for its role.
+
+**Demonstration video:** Add a link here after uploading the video to a location accessible to viewers, such as a GitHub repository asset or a shareable video link.
+
+## Testing and Current Status
+
+The application has been tested locally during development, including registration, login, the two-factor authentication flow, and dashboard access.
+
+The current development notes also identify work that requires final verification, including the password-pepper registration change and the deployed application’s behavior. Confirm these items before presenting the project as fully tested or production-ready.
+
+## Security Notes
+
+- Use test accounts for demonstrations.
+- Keep credentials and secret values out of the repository.
+- Do not publish real user passwords, recovery codes, or sensitive database contents in screenshots or videos.
+- Treat the hosted demo as an academic demonstration unless production security and deployment checks have been completed.
+
+## Author and Purpose
+
+This project was developed as part of an academic exercise in web application security. It demonstrates practical implementation of authentication, two-factor authentication, and role-based access control using Laravel.
